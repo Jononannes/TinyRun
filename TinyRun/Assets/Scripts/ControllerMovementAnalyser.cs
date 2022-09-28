@@ -7,7 +7,6 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public ControllerTracker rightController;
     public ControllerTracker leftController;
     public Transform player;
-    public AudioClip footstepClip;
 
     // configurable settings
     [Range(0f, 5f)]

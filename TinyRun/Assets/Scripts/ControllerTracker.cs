@@ -2,14 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class ControllerTracker : MonoBehaviour {
-    
+
+    public string controllerName;
     public Text text;
     public bool debug = false;
 
+    public InputActionReference triggerPressed;
+    public InputActionReference gripPressed;
+    public InputActionReference startPressed;
+
     private Vector3 currentVelocity;
     private Vector3 prevPosition;
+
+    private void Awake() {
+        triggerPressed.action.performed += TestTrigger;
+        gripPressed.action.performed += TestGrip;
+
+        if (startPressed != null) {
+            startPressed.action.performed += TestStart;
+        }
+    }
+
+    private void OnDestroy() {
+        triggerPressed.action.performed -= TestTrigger;
+        gripPressed.action.performed -= TestGrip;
+
+        if (startPressed != null) {
+            startPressed.action.performed -= TestStart;
+        }
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -40,5 +64,18 @@ public class ControllerTracker : MonoBehaviour {
 
     public float GetSpeed() {
         return GetVelocity().magnitude;
+    }
+
+
+    private void TestTrigger(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log(controllerName + " trigger event");
+    }
+
+    private void TestGrip(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log(controllerName + " grip event");
+    }
+
+    private void TestStart(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log(controllerName + " pause event");
     }
 }
