@@ -53,15 +53,17 @@ public class ControllerTracker : MonoBehaviour {
         }
     }
 
-
+    // The in-game world space of the controller
     public Vector3 GetPosition() {
         return transform.position;
     }
 
+    // The velocity that the controller is moving at in in-game world space
     public Vector3 GetVelocity() {
         return currentVelocity;
     }
 
+    // How fast the controller is moving regardless of direction
     public float GetSpeed() {
         return GetVelocity().magnitude;
     }
