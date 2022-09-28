@@ -68,14 +68,18 @@ public class ControllerTracker : MonoBehaviour {
 
 
     private void TestTrigger(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log(controllerName + " trigger event");
+        //FindObjectOfType<DebuggerText>().Log(controllerName + " trigger event");
+        FindObjectOfType<ControllerMovementAnalyser>().ResetPlayerPosition();
     }
 
     private void TestGrip(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log(controllerName + " grip event");
+        //FindObjectOfType<DebuggerText>().Log(controllerName + " grip event");
+        //ControllerMovementAnalyser analyser = FindObjectOfType<ControllerMovementAnalyser>();
+        //analyser.canJump = !analyser.canJump;
+        //FindObjectOfType<DebuggerText>().Log("Setting canJump to " + analyser.canJump);
     }
 
     private void TestStart(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log(controllerName + " pause event");
+        //FindObjectOfType<DebuggerText>().Log(controllerName + " pause event");
     }
 }
