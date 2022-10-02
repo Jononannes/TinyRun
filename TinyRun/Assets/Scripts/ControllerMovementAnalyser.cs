@@ -7,6 +7,7 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public ControllerTracker rightController;
     public ControllerTracker leftController;
     public Transform player;
+    public Path path;
 
     // configurable settings
     [Range(0f, 5f)]
@@ -38,7 +39,19 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        switch (path.GetCurrentSegment().type) {
+            case PathSegment.Type.Running:
+                HandleRunningSegment();
+                break;
+            case PathSegment.Type.Climbing:
+                HandleClimbingSegment();
+                break;
+        }
+    }
 
+
+
+    private void HandleRunningSegment() {
         // Jumping behaviour
         if (!isJumping && canJump &&
             (rightController.GetVelocity().y > minimumArmMovementForJump && leftController.GetVelocity().y > minimumArmMovementForJump)) {
@@ -58,7 +71,7 @@ public class ControllerMovementAnalyser : MonoBehaviour {
                 float environmentMovement = (totalZMovement - minimumArmMovementForRun) * armToEnvironmentMovementScaling;
 
                 // Move the player
-                player.position +=  new Vector3(0f, 0f, environmentMovement * Time.deltaTime);
+                player.position += new Vector3(0f, 0f, environmentMovement * Time.deltaTime);
 
                 bool rightArmSwingForward = rightController.GetVelocity().z > 0;
 
@@ -73,6 +86,8 @@ public class ControllerMovementAnalyser : MonoBehaviour {
             }
         }
     }
+
+
 
     // Performs a jump
     private IEnumerator JumpCoroutine() {
@@ -113,13 +128,20 @@ public class ControllerMovementAnalyser : MonoBehaviour {
         // it next frame prevents that
         bool couldJump = canJump;
         canJump = false;
-        player.position = new Vector3(0f, 0f, 0f);
         StartCoroutine(SetCanJumpNextFrame(couldJump));
+        player.position = path.segments[0].startPosition.position;
+        path.Reset();
     }
 
     // Sets the canJump variable on the next frame
     private IEnumerator SetCanJumpNextFrame(bool newCanJump) {
         yield return null;
         canJump = newCanJump;
+    }
+
+
+
+    private void HandleClimbingSegment() {
+        player.position += new Vector3(0f, 1f, 0f) * Time.deltaTime;
     }
 }
