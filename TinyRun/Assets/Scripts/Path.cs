@@ -19,7 +19,8 @@ public class Path : MonoBehaviour {
             segments[i].transform.position = segments[i - 1].GetEndPosition();
         }
 
-        SetCurrentSegment(Mathf.Min(startAtSegment, segments.Length));
+        SetCurrentSegment(startAtSegment);
+        player.position = GetCurrentSegment().startPosition.position;
     }
 
 

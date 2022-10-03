@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ControllerMovementAnalyser : MonoBehaviour {
 
@@ -8,6 +9,9 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public ControllerTracker leftController;
     public Transform player;
     public Path path;
+    public InputActionReference rightGripPressed;
+    public InputActionReference leftGripPressed;
+
 
     // configurable settings
     [Range(0f, 5f)]
@@ -23,8 +27,28 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     private bool lastRightArmSwingForward = false;
     private bool isJumping = false;
     private float timeSinceJumpStart = 0f;
-    public bool canJump = false;
+    private bool canJump = false;
 
+    private bool rightGripDown;
+    private bool leftGripDown;
+    private bool rightIsGripping;
+
+
+
+    private void Awake() {
+        rightGripPressed.action.performed += HandleRightGripPressed;
+        rightGripPressed.action.canceled += HandleRightGripReleased;
+        leftGripPressed.action.performed += HandleLeftGripPressed;
+        leftGripPressed.action.canceled += HandleLeftGripReleased;
+
+    }
+
+    private void OnDestroy() {
+        rightGripPressed.action.performed -= HandleRightGripPressed;
+        rightGripPressed.action.canceled -= HandleRightGripReleased;
+        leftGripPressed.action.performed -= HandleLeftGripPressed;
+        leftGripPressed.action.canceled -= HandleLeftGripReleased;
+    }
 
     // Start is called before the first frame update
     private void Start() {
@@ -34,8 +58,7 @@ public class ControllerMovementAnalyser : MonoBehaviour {
         // but is set to true the next frame
         StartCoroutine(SetCanJumpNextFrame(true));
     }
-
-
+    
 
     // Update is called once per frame
     void Update() {
@@ -46,6 +69,35 @@ public class ControllerMovementAnalyser : MonoBehaviour {
             case PathSegment.Type.Climbing:
                 HandleClimbingSegment();
                 break;
+        }
+    }
+
+
+    private void HandleRightGripPressed(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log("Right grip pressed");
+        rightGripDown = true;
+        rightIsGripping = true;
+    }
+
+    private void HandleRightGripReleased(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log("Right grip released");
+        rightGripDown = false;
+        if (leftGripDown && rightIsGripping) {
+            rightIsGripping = false;
+        }
+    }
+
+    private void HandleLeftGripPressed(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log("Left grip pressed");
+        leftGripDown = true;
+        rightIsGripping = false;
+    }
+
+    private void HandleLeftGripReleased(InputAction.CallbackContext context) {
+        FindObjectOfType<DebuggerText>().Log("Left grip released");
+        leftGripDown = false;
+        if (rightIsGripping && !rightIsGripping) {
+            rightIsGripping = true;
         }
     }
 
@@ -142,6 +194,22 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
 
     private void HandleClimbingSegment() {
-        player.position += new Vector3(0f, 1f, 0f) * Time.deltaTime;
+        //player.position += new Vector3(0f, 1f, 0f) * Time.deltaTime;
+
+        if (rightGripDown || leftGripDown) {
+            ControllerTracker tracker = null;
+
+            if (rightIsGripping && rightGripDown) {
+                tracker = rightController;
+            } else if (!rightIsGripping && leftGripDown) {
+                tracker = leftController;
+            }
+
+            float vel = tracker.GetVelocity().y;
+            if (vel < 0) {
+                player.position += new Vector3(0f, Mathf.Abs(vel), 0f) * Time.deltaTime * 2f;
+                //FindObjectOfType<DebuggerText>().Log("Vel: " + vel.ToString());
+            }
+        }
     }
 }

@@ -2131,6 +2131,10 @@ MonoBehaviour:
   leftController: {fileID: 1728657559}
   player: {fileID: 1725982594}
   path: {fileID: 1958123895}
+  rightGripPressed: {fileID: 81013992098050061, guid: 10f0f3f16bd6a47f9a214b717afe8921,
+    type: 3}
+  leftGripPressed: {fileID: 7666978285878582255, guid: 10f0f3f16bd6a47f9a214b717afe8921,
+    type: 3}
   minimumArmMovementForRun: 0.5
   armToEnvironmentMovementScaling: 2
   jumpCurve:
@@ -2159,7 +2163,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   jumpTime: 1
   minimumArmMovementForJump: 3
-  canJump: 0
 --- !u!4 &1741433682
 Transform:
   m_ObjectHideFlags: 0
@@ -2907,7 +2910,7 @@ PrefabInstance:
     - target: {fileID: 1909967867617214402, guid: 3b299a81a63d24585931bf7d6baa1bed,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 22.14
       objectReference: {fileID: 0}
     - target: {fileID: 1909967867617214402, guid: 3b299a81a63d24585931bf7d6baa1bed,
         type: 3}
@@ -2981,6 +2984,11 @@ PrefabInstance:
     - target: {fileID: 6908245334133708692, guid: 22a6bb8effade41daa9871a97c40aeaf,
         type: 3}
       propertyPath: updateInEdit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6908245334133708692, guid: 22a6bb8effade41daa9871a97c40aeaf,
+        type: 3}
+      propertyPath: startAtSegment
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6908245334133708692, guid: 22a6bb8effade41daa9871a97c40aeaf,
