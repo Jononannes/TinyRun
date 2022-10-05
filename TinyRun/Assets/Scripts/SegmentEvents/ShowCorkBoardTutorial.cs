@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class ShowCorkBoardTutorial : MonoBehaviour {
 
-    public GameObject onObject;
-    public GameObject offObject;
+    public GameObject tutorial;
 
     public void ShowTutorial() {
-        onObject.SetActive(true);
-        offObject.SetActive(false);
+        tutorial.SetActive(true);
     }
 
     public void HideTutorial() {
-        onObject.SetActive(false);
-        offObject.SetActive(true);
+        tutorial.SetActive(false);
     }
 }
