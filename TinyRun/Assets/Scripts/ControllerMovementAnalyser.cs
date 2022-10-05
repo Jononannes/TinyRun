@@ -74,13 +74,13 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
 
     private void HandleRightGripPressed(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log("Right grip pressed");
+        //FindObjectOfType<DebuggerText>().Log("Right grip pressed");
         rightGripDown = true;
         rightIsGripping = true;
     }
 
     private void HandleRightGripReleased(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log("Right grip released");
+        //FindObjectOfType<DebuggerText>().Log("Right grip released");
         rightGripDown = false;
         if (leftGripDown && rightIsGripping) {
             rightIsGripping = false;
@@ -88,13 +88,13 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     }
 
     private void HandleLeftGripPressed(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log("Left grip pressed");
+        //FindObjectOfType<DebuggerText>().Log("Left grip pressed");
         leftGripDown = true;
         rightIsGripping = false;
     }
 
     private void HandleLeftGripReleased(InputAction.CallbackContext context) {
-        FindObjectOfType<DebuggerText>().Log("Left grip released");
+        //FindObjectOfType<DebuggerText>().Log("Left grip released");
         leftGripDown = false;
         if (rightIsGripping && !rightIsGripping) {
             rightIsGripping = true;
