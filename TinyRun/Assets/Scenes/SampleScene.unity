@@ -4453,6 +4453,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dificulty-Tutorial
       objectReference: {fileID: 0}
+    - target: {fileID: 831505341790153467, guid: 707377fc93b65d54dabceaf240ee933d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3623999910459304541, guid: 707377fc93b65d54dabceaf240ee933d,
         type: 3}
       propertyPath: m_Pivot.x
