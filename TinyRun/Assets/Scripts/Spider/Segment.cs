@@ -18,4 +18,10 @@ public class Segment : MonoBehaviour {
     public void Follow(Vector3 target) {
         transform.LookAt(target);
     }
+
+
+    //private void OnDrawGizmosSelected() {
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawSphere(transform.position, 0.05f);
+    //}
 }

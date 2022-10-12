@@ -47,4 +47,22 @@ public class IK : MonoBehaviour {
     public Vector3 GetEndPoint() {
         return segments[segments.Length - 1].end.position;
     }
+
+
+
+    //private void OnDrawGizmosSelected() {
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawSphere(transform.position, 0.05f);
+    //    //Gizmos.DrawSphere(segments[0].start.position, 0.05f);
+    //    Gizmos.DrawSphere(segments[0].end.position, 0.05f);
+    //    //Gizmos.DrawSphere(segments[1].start.position, 0.05f);
+    //    Gizmos.DrawSphere(segments[1].end.position, 0.05f);
+
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawRay(transform.position, segments[0].end.position - transform.position);
+    //    Gizmos.DrawRay(segments[0].end.position, segments[1].end.position - segments[0].end.position);
+
+    //    //Gizmos.color = Color.blue;
+    //    //Gizmos.DrawSphere(pole.position, 0.05f);
+    //}
 }
