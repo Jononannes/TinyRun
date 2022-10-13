@@ -8,6 +8,8 @@ public class SpiderCollisionController : MonoBehaviour {
     public Transform player;
     public Transform spider;
 
+    [Range(0f, 5f)]
+    public float collisionDistance = 1.5f;
     [Range(0f, 50f)]
     public float warningSoundDistance = 10f;
     [Min(0f)]
@@ -23,6 +25,10 @@ public class SpiderCollisionController : MonoBehaviour {
 
 
     void Update() {
+        if ((player.position - spider.position).magnitude < collisionDistance) {
+            // game over
+        }
+
         if (timeSinceWarningSound > warningSoundCooldownTime) {
             if ((player.position - spider.position).magnitude < warningSoundDistance) {
                 audioSource.pitch = Random.Range(0.8f, 1.25f);
