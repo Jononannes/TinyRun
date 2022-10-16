@@ -3103,6 +3103,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpTime: 1
+  analyser: {fileID: 1741433681}
 --- !u!4 &901924402
 Transform:
   m_ObjectHideFlags: 0

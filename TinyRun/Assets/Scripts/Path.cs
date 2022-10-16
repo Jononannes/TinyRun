@@ -31,7 +31,9 @@ public class Path : MonoBehaviour {
             SetCurrentSegment(currentSegment + 1);
 
             // set player to the correct position
-            player.position = GetCurrentSegment().startPosition.position;
+            if (segments[currentSegment - 1].type != segments[currentSegment].type) {
+                player.position = GetCurrentSegment().startPosition.position;
+            }
         }
     }
 

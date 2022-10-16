@@ -22,10 +22,9 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public float jumpTime = 1f;
     public float minimumArmMovementForJump = 1f;
 
-
     private AudioSource audioSource;
     private bool lastRightArmSwingForward = false;
-    private bool isJumping = false;
+    public bool isJumping = false;
     private float timeSinceJumpStart = 0f;
     private bool canJump = false;
 
@@ -74,13 +73,11 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
 
     private void HandleRightGripPressed(InputAction.CallbackContext context) {
-        //FindObjectOfType<DebuggerText>().Log("Right grip pressed");
         rightGripDown = true;
         rightIsGripping = true;
     }
 
     private void HandleRightGripReleased(InputAction.CallbackContext context) {
-        //FindObjectOfType<DebuggerText>().Log("Right grip released");
         rightGripDown = false;
         if (leftGripDown && rightIsGripping) {
             rightIsGripping = false;
@@ -88,13 +85,11 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     }
 
     private void HandleLeftGripPressed(InputAction.CallbackContext context) {
-        //FindObjectOfType<DebuggerText>().Log("Left grip pressed");
         leftGripDown = true;
         rightIsGripping = false;
     }
 
     private void HandleLeftGripReleased(InputAction.CallbackContext context) {
-        //FindObjectOfType<DebuggerText>().Log("Left grip released");
         leftGripDown = false;
         if (rightIsGripping && !rightIsGripping) {
             rightIsGripping = true;
@@ -142,12 +137,20 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
 
     // Performs a jump
-    private IEnumerator JumpCoroutine() {
+    public IEnumerator JumpCoroutine() {
         timeSinceJumpStart = 0f;
         isJumping = true;
         float jumpLength = jumpCurve.keys[jumpCurve.keys.Length - 1].time;
 
         while (timeSinceJumpStart < jumpTime) {
+            // If we jumped into a segment that is not a running segment,
+            // we don't want to continue the jump becuase that would lead
+            // to going through the environment
+            if (path.GetCurrentSegment().type != PathSegment.Type.Running) {
+                isJumping = false;
+                yield break;
+            }
+
             // Calculate how much the player is moving upwards (or downwards) in the jump on this frame
             float offsetY = jumpCurve.Evaluate(timeSinceJumpStart * jumpLength / jumpTime) -
                             jumpCurve.Evaluate((timeSinceJumpStart - Time.deltaTime) * jumpLength / jumpTime);
@@ -164,10 +167,9 @@ public class ControllerMovementAnalyser : MonoBehaviour {
             yield return null;
         }
 
+        
         timeSinceJumpStart = jumpTime;
-        float oY = jumpCurve.Evaluate(timeSinceJumpStart * jumpLength / jumpTime) -
-                    jumpCurve.Evaluate((timeSinceJumpStart - Time.deltaTime) * jumpLength / jumpTime);
-        player.position += new Vector3(0f, oY, 0f);
+        player.position += new Vector3(0f, path.GetCurrentSegment().startPosition.position.y - player.position.y, 0f);
 
         isJumping = false;
     }
@@ -194,8 +196,6 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
 
     private void HandleClimbingSegment() {
-        //player.position += new Vector3(0f, 1f, 0f) * Time.deltaTime;
-
         if (rightGripDown || leftGripDown) {
             ControllerTracker tracker = null;
 
@@ -208,7 +208,6 @@ public class ControllerMovementAnalyser : MonoBehaviour {
             float vel = tracker.GetVelocity().y;
             if (vel < 0) {
                 player.position += new Vector3(0f, Mathf.Abs(vel), 0f) * Time.deltaTime * 2f;
-                //FindObjectOfType<DebuggerText>().Log("Vel: " + vel.ToString());
             }
         }
     }
