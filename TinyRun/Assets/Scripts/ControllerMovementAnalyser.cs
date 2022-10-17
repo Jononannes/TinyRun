@@ -24,9 +24,9 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
     private AudioSource audioSource;
     private bool lastRightArmSwingForward = false;
-    public bool isJumping = false;
+    [HideInInspector] public bool isJumping = false;
     private float timeSinceJumpStart = 0f;
-    public bool canJump = false;
+    [HideInInspector] public bool canJump = false;
 
     private bool rightGripDown;
     private bool leftGripDown;
@@ -52,10 +52,6 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     // Start is called before the first frame update
     private void Start() {
         audioSource = GetComponent<AudioSource>();
-
-        // canJump starts as false in order to behave nicely on the first frame,
-        // but is set to true the next frame
-        StartCoroutine(SetCanJumpNextFrame(true));
     }
     
 
@@ -190,6 +186,11 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     // Sets the canJump variable on the next frame
     public IEnumerator SetCanJumpNextFrame(bool newCanJump) {
         yield return null;
+        canJump = newCanJump;
+    }
+
+
+    public void SetCanJump(bool newCanJump) {
         canJump = newCanJump;
     }
 

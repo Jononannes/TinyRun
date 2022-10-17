@@ -30,7 +30,7 @@ public class KeyboardController : MonoBehaviour {
 
 
     private void HandleRunningSegment() {
-        if (!analyser.isJumping && Input.GetKeyDown(KeyCode.Space)) {
+        if (analyser.canJump && Input.GetKeyDown(KeyCode.Space)) {
             StartCoroutine(analyser.JumpCoroutine());
         } else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
             player.position += new Vector3(0f, 0f, movementSpeed * Time.deltaTime);

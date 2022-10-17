@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class GameStateController : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class GameStateController : MonoBehaviour {
     }
     public InputActionReference leftPausePressed;
     public InputActionReference rightPausePressed;
+    public UnityEvent onPaused;
+    public UnityEvent onPlayed;
 
 
     private void Awake() {
@@ -39,15 +42,15 @@ public class GameStateController : MonoBehaviour {
     }
 
     public void Pause() {
-        print("pausing");
         state = State.PAUSED;
-        Time.timeScale = 0.0001f;
+        Time.timeScale = 0f;
+        onPaused.Invoke();
     }
 
     public void Play() {
-        print("playing");
         state = State.PLAYING;
         Time.timeScale = 1f;
+        onPlayed.Invoke();
     }
 
 
