@@ -47,7 +47,7 @@ public class Path : MonoBehaviour {
         for (int i = currentSegment; i >= 0; i--) {
             segments[i].resetEvent.Invoke();
         }
-        SetCurrentSegment(0);
+        currentSegment = 0;
     }
 
 

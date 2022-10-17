@@ -706,19 +706,7 @@ MonoBehaviour:
   buttonVisuals: {fileID: 7522420636594120068}
   onPressed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7522420636510927748}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7522420636921309328
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,19 +777,7 @@ MonoBehaviour:
   buttonVisuals: {fileID: 7522420637151005604}
   onPressed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7522420636510927748}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7522420637067184183
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,19 +848,7 @@ MonoBehaviour:
   buttonVisuals: {fileID: 7522420637234295884}
   onPressed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7522420636510927748}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7522420637151005603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,16 +1223,4 @@ MonoBehaviour:
   buttonVisuals: {fileID: 7522420636395405481}
   onPressed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7522420636510927748}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []

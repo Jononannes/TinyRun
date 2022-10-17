@@ -9,6 +9,11 @@ public class SpiderController : MonoBehaviour {
     public Path path;
 
     private int spiderSegmentIndex = 0;
+    private Vector3 startingPosition;
+
+    private void Start() {
+        startingPosition = spider.transform.position;
+    }
 
     // Update is called once per frame
     void Update() {
@@ -52,5 +57,12 @@ public class SpiderController : MonoBehaviour {
 
     private PathSegment SpiderSegment() {
         return path.segments[spiderSegmentIndex];
+    }
+
+    public void Reset() {
+        spiderSegmentIndex = 0;
+        spider.transform.position = startingPosition;
+        spider.transform.forward = Vector3.forward;
+        spider.transform.up = Vector3.up;
     }
 }

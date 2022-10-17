@@ -178,13 +178,17 @@ public class ControllerMovementAnalyser : MonoBehaviour {
         // it next frame prevents that
         bool couldJump = canJump;
         canJump = false;
-        StartCoroutine(SetCanJumpNextFrame(couldJump));
+        SetCanJumpNextFrame(couldJump);
         player.position = path.segments[0].startPosition.position;
         path.Reset();
     }
 
+    public void SetCanJumpNextFrame(bool newCanJump) {
+        StartCoroutine(CanJumpNextFrameRoutine(newCanJump));
+    }
+
     // Sets the canJump variable on the next frame
-    public IEnumerator SetCanJumpNextFrame(bool newCanJump) {
+    public IEnumerator CanJumpNextFrameRoutine(bool newCanJump) {
         yield return null;
         canJump = newCanJump;
     }

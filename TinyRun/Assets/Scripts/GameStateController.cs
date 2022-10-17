@@ -14,6 +14,7 @@ public class GameStateController : MonoBehaviour {
     public InputActionReference rightPausePressed;
     public UnityEvent onPaused;
     public UnityEvent onPlayed;
+    public UnityEvent onMenu;
 
 
     private void Awake() {
@@ -27,7 +28,7 @@ public class GameStateController : MonoBehaviour {
     }
 
     void Start() {
-        Pause();
+        Menu();
     }
 
 
@@ -47,16 +48,30 @@ public class GameStateController : MonoBehaviour {
         onPaused.Invoke();
     }
 
+    public void Menu() {
+        state = State.MENU;
+        Time.timeScale = 0f;
+        onMenu.Invoke();
+    }
+
     public void Play() {
-        state = State.PLAYING;
+        //state = State.PLAYING;
         Time.timeScale = 1f;
         onPlayed.Invoke();
+        StartCoroutine(SetStateNextFrame(State.PLAYING));
     }
 
 
 
     public enum State {
         PLAYING,
-        PAUSED
+        PAUSED,
+        MENU
+    }
+
+
+    private IEnumerator SetStateNextFrame(State newState) {
+        yield return null;
+        state = newState;
     }
 }
