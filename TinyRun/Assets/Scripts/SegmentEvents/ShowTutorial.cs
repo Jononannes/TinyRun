@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowBedTutorial : MonoBehaviour {
+public class ShowTutorial : MonoBehaviour {
 
     public GameObject tutorial;
 
-    public void ShowTutorial() {
+    public void Show() {
         tutorial.SetActive(true);
     }
 
-    public void HideTutorial() {
+    public void Hide() {
         tutorial.SetActive(false);
     }
-
 }
