@@ -26,7 +26,7 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     private bool lastRightArmSwingForward = false;
     public bool isJumping = false;
     private float timeSinceJumpStart = 0f;
-    private bool canJump = false;
+    public bool canJump = false;
 
     private bool rightGripDown;
     private bool leftGripDown;
@@ -188,7 +188,7 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     }
 
     // Sets the canJump variable on the next frame
-    private IEnumerator SetCanJumpNextFrame(bool newCanJump) {
+    public IEnumerator SetCanJumpNextFrame(bool newCanJump) {
         yield return null;
         canJump = newCanJump;
     }

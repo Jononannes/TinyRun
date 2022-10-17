@@ -17,10 +17,12 @@ public class SpiderCollisionController : MonoBehaviour {
 
     private AudioSource audioSource;
     private float timeSinceWarningSound = 0f;
+    private GameStateController gameStateController;
 
 
     private void Start() {
         audioSource = GetComponent<AudioSource>();
+        gameStateController = FindObjectOfType<GameStateController>();
     }
 
 

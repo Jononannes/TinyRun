@@ -20,7 +20,9 @@ public class ControllerTracker : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Vector3 vel = (transform.position - prevPosition) / Time.deltaTime;
+        Vector3 vel = FindObjectOfType<GameStateController>().state == GameStateController.State.PLAYING
+            ? (transform.position - prevPosition) / Time.deltaTime
+            : Vector3.zero;
         currentVelocity = vel;
         prevPosition = transform.position;
         text.text = vel.ToString() + "\n" + vel.magnitude.ToString();

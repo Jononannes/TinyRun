@@ -21,6 +21,10 @@ public class KeyboardController : MonoBehaviour {
                 HandleClimbingSegment();
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            FindObjectOfType<GameStateController>().PlayPause(new UnityEngine.InputSystem.InputAction.CallbackContext());
+        }
     }
 
 
