@@ -10,9 +10,24 @@ public class KeyboardController : MonoBehaviour {
     public AnimationCurve jumpCurve;
     public float jumpTime = 1f;
     public ControllerMovementAnalyser analyser;
+    public VRButton difficultyButton;
+    public VRButton restartButton;
+    public bool isInStartMenu = true;
+    public bool isInVictoryMenu = false;
 
 
     void Update() {
+        if (isInStartMenu) {
+            if (Input.GetKeyDown(KeyCode.S)) {
+                isInStartMenu = false;
+                difficultyButton.onPressed.Invoke();
+            }
+        } else if (isInVictoryMenu) {
+            if (Input.GetKeyDown(KeyCode.R)) {
+                restartButton.onPressed.Invoke();
+            }
+        }
+
         switch (path.GetCurrentSegment().type) {
             case PathSegment.Type.Running:
                 HandleRunningSegment();
@@ -42,5 +57,15 @@ public class KeyboardController : MonoBehaviour {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
             player.position += new Vector3(0f, movementSpeed * Time.deltaTime, 0f);
         }
+    }
+
+
+
+    public void SetIsInStartMenu(bool newBool) {
+        isInStartMenu = newBool;
+    }
+
+    public void SetIsInVictoryMenu(bool newBool) {
+        isInVictoryMenu = newBool;
     }
 }
