@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(CapsuleCollider)), RequireComponent(typeof(Rigidbody))]
 public class PlayerCollider : MonoBehaviour {
 
     public UnityEvent onCollision;
@@ -17,7 +17,6 @@ public class PlayerCollider : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Obstacle")) {
-            print("collision");
             onCollision.Invoke();
         }
     }

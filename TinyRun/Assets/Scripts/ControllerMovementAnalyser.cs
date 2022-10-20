@@ -11,8 +11,7 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public Path path;
     public InputActionReference rightGripPressed;
     public InputActionReference leftGripPressed;
-
-
+    
     // configurable settings
     [Range(0f, 5f)]
     public float minimumArmMovementForRun = 0.5f;
@@ -21,16 +20,20 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public AnimationCurve jumpCurve;
     public float jumpTime = 1f;
     public float minimumArmMovementForJump = 1f;
+    public float collisionStunTime = 0.5f;
+    public float collisionShakeIntensity = 0.1f;
 
     private AudioSource audioSource;
     private bool lastRightArmSwingForward = false;
     [HideInInspector] public bool isJumping = false;
     private float timeSinceJumpStart = 0f;
     [HideInInspector] public bool canJump = false;
+    public CameraShake cameraShake;
 
     private bool rightGripDown;
     private bool leftGripDown;
     private bool rightIsGripping;
+    private bool isInCollisionStun = false;
 
 
 
@@ -57,13 +60,15 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        switch (path.GetCurrentSegment().type) {
-            case PathSegment.Type.Running:
-                HandleRunningSegment();
-                break;
-            case PathSegment.Type.Climbing:
-                HandleClimbingSegment();
-                break;
+        if (!isInCollisionStun) {
+            switch (path.GetCurrentSegment().type) {
+                case PathSegment.Type.Running:
+                    HandleRunningSegment();
+                    break;
+                case PathSegment.Type.Climbing:
+                    HandleClimbingSegment();
+                    break;
+            }
         }
     }
 
@@ -215,5 +220,19 @@ public class ControllerMovementAnalyser : MonoBehaviour {
                 player.position += new Vector3(0f, Mathf.Abs(vel), 0f) * Time.deltaTime * 2f;
             }
         }
+    }
+
+
+
+    public void Stun() {
+        StartCoroutine(StunCoroutine());
+    }
+
+    private IEnumerator StunCoroutine() {
+        isInCollisionStun = true;
+        cameraShake.StartShake(collisionShakeIntensity);
+        yield return new WaitForSeconds(collisionStunTime);
+        cameraShake.StopShake();
+        isInCollisionStun = false;
     }
 }
