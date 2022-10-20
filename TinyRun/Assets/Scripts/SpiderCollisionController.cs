@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 public class SpiderCollisionController : MonoBehaviour {
@@ -14,6 +15,7 @@ public class SpiderCollisionController : MonoBehaviour {
     public float warningSoundDistance = 10f;
     [Min(0f)]
     public float warningSoundCooldownTime = 4f;
+    public UnityEvent onGameOver;
 
     private AudioSource audioSource;
     private float timeSinceWarningSound = 0f;
@@ -28,7 +30,7 @@ public class SpiderCollisionController : MonoBehaviour {
 
     void Update() {
         if ((player.position - spider.position).magnitude < collisionDistance) {
-            // game over
+            onGameOver.Invoke();
         }
 
         if (timeSinceWarningSound > warningSoundCooldownTime) {

@@ -20,7 +20,8 @@ public class SpiderController : MonoBehaviour {
         PathSegment playerSegment = PlayerSegment();
         //PathSegment spiderSegment = SpiderSegment();
 
-        if ((spider.transform.position - SpiderSegment().startPosition.position).magnitude > SpiderSegment().length) {
+        if ((SpiderSegment().type == PathSegment.Type.Running && spider.transform.position.z > SpiderSegment().startPosition.position.z + SpiderSegment().length) ||
+            (SpiderSegment().type == PathSegment.Type.Climbing && spider.transform.position.y > SpiderSegment().startPosition.position.y + SpiderSegment().length)) {
             // change to the next segment
             spiderSegmentIndex += 1;
 
