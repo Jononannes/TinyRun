@@ -10,9 +10,11 @@ public class SpiderController : MonoBehaviour {
 
     private int spiderSegmentIndex = 0;
     private Vector3 startingPosition;
+    private DifficultyController difficultyController;
 
     private void Start() {
         startingPosition = spider.transform.position;
+        difficultyController = FindObjectOfType<DifficultyController>();
     }
 
     // Update is called once per frame
@@ -45,9 +47,9 @@ public class SpiderController : MonoBehaviour {
         float difficulty = playerSegment.difficulty;
 
         if (SpiderSegment().type == PathSegment.Type.Running) {
-            spider.transform.position += new Vector3(0f, 0f, difficulty) * Time.deltaTime;
+            spider.transform.position += new Vector3(0f, 0f, difficulty * difficultyController.difficultyMultiplier) * Time.deltaTime;
         } else if (SpiderSegment().type == PathSegment.Type.Climbing) {
-            spider.transform.position += new Vector3(0f, difficulty, 0f) * Time.deltaTime;
+            spider.transform.position += new Vector3(0f, difficulty * difficultyController.difficultyMultiplier, 0f) * Time.deltaTime;
         }
     }
 
