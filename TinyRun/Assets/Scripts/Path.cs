@@ -42,6 +42,10 @@ public class Path : MonoBehaviour {
         return segments[currentSegment];
     }
 
+    public PathSegment GetNextSegment() {
+        return segments[currentSegment + 1];
+    }
+
 
     public void Reset() {
         for (int i = currentSegment; i >= 0; i--) {
@@ -61,5 +65,9 @@ public class Path : MonoBehaviour {
     private void SetCurrentSegment(int segmentIndex) {
         currentSegment = segmentIndex;
         GetCurrentSegment().onReached.Invoke();
+    }
+
+    public void MoveToNextSegment() {
+        SetCurrentSegment(currentSegment + 1);
     }
 }

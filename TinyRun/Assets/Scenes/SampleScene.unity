@@ -3492,7 +3492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &901924401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7538,6 +7538,8 @@ MonoBehaviour:
   minimumArmMovementForJump: 3
   collisionStunTime: 0.5
   collisionShakeIntensity: 0.1
+  segmentTransitionDistance: 0.5
+  transitionTime: 2
   isJumping: 0
   canJump: 0
   cameraShake: {fileID: 658264232}

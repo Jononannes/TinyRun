@@ -22,6 +22,8 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     public float minimumArmMovementForJump = 1f;
     public float collisionStunTime = 0.5f;
     public float collisionShakeIntensity = 0.1f;
+    public float segmentTransitionDistance = 0.5f;
+    public float transitionTime = 2f;
 
     private AudioSource audioSource;
     private bool lastRightArmSwingForward = false;
@@ -61,6 +63,24 @@ public class ControllerMovementAnalyser : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (!isInCollisionStun) {
+            // easier transition between climbing and running segments
+            if (path.GetCurrentSegment().type == PathSegment.Type.Running
+                && path.GetNextSegment().type == PathSegment.Type.Climbing
+                && Mathf.Abs(path.GetNextSegment().startPosition.position.z - player.position.z) < segmentTransitionDistance
+                && PlayerIsDoingClimbingMotion()) {
+
+                path.MoveToNextSegment();
+                StartCoroutine(SmoothSegmentTransition());
+
+            } else if (path.GetCurrentSegment().type == PathSegment.Type.Climbing
+                && path.GetNextSegment().type == PathSegment.Type.Running
+                && Mathf.Abs(path.GetNextSegment().startPosition.position.y - player.position.y) < segmentTransitionDistance
+                && PlayerIsDoingRunMotion()) {
+
+                path.MoveToNextSegment();
+                StartCoroutine(SmoothSegmentTransition());
+            }
+
             switch (path.GetCurrentSegment().type) {
                 case PathSegment.Type.Running:
                     HandleRunningSegment();
@@ -70,6 +90,37 @@ public class ControllerMovementAnalyser : MonoBehaviour {
                     break;
             }
         }
+    }
+
+
+    private IEnumerator SmoothSegmentTransition() {
+        PathSegment.Type type = path.GetCurrentSegment().type;
+        float diff;
+        if (type == PathSegment.Type.Running) {
+            diff = path.GetCurrentSegment().startPosition.position.y - player.position.y;
+        } else if (type == PathSegment.Type.Climbing) {
+            diff = path.GetCurrentSegment().startPosition.position.z - player.position.z;
+        } else {
+            yield break;
+        }
+
+        canJump = false;
+
+        float time = 0f;
+        while (time < transitionTime) {
+            
+            
+            if (type == PathSegment.Type.Running) {
+                player.position += new Vector3(0f, diff / transitionTime * Time.deltaTime, 0f);
+            } else if (type == PathSegment.Type.Climbing) {
+                player.position += new Vector3(0f, 0f, diff / transitionTime * Time.deltaTime);
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        canJump = true;
     }
 
 
@@ -100,16 +151,14 @@ public class ControllerMovementAnalyser : MonoBehaviour {
 
 
     private void HandleRunningSegment() {
+
         // Jumping behaviour
-        if (!isJumping && canJump &&
-            (rightController.GetVelocity().y > minimumArmMovementForJump && leftController.GetVelocity().y > minimumArmMovementForJump)) {
+        if (PlayerIsDoingJumpMotion()) {
             StartCoroutine(JumpCoroutine());
         }
 
         // Running behaviour
-        if (!isJumping &&
-            (rightController.GetVelocity().z > minimumArmMovementForRun && leftController.GetVelocity().z < -minimumArmMovementForRun ||
-            rightController.GetVelocity().z < -minimumArmMovementForRun && leftController.GetVelocity().z > minimumArmMovementForRun)) {
+        if (PlayerIsDoingRunMotion()) {
 
             // Calculate how much the player moved their arms
             float totalZMovement = Mathf.Abs(rightController.GetVelocity().z) + Mathf.Abs(leftController.GetVelocity().z);
@@ -133,6 +182,20 @@ public class ControllerMovementAnalyser : MonoBehaviour {
                 lastRightArmSwingForward = rightArmSwingForward;
             }
         }
+    }
+
+
+    private bool PlayerIsDoingJumpMotion() {
+        return !isJumping
+            && canJump
+            && (rightController.GetVelocity().y > minimumArmMovementForJump
+                && leftController.GetVelocity().y > minimumArmMovementForJump);
+    }
+
+    private bool PlayerIsDoingRunMotion() {
+        return !isJumping
+            && (rightController.GetVelocity().z > minimumArmMovementForRun && leftController.GetVelocity().z < -minimumArmMovementForRun
+                || rightController.GetVelocity().z < -minimumArmMovementForRun && leftController.GetVelocity().z > minimumArmMovementForRun);
     }
 
 
@@ -220,6 +283,10 @@ public class ControllerMovementAnalyser : MonoBehaviour {
                 player.position += new Vector3(0f, Mathf.Abs(vel), 0f) * Time.deltaTime * 2f;
             }
         }
+    }
+
+    private bool PlayerIsDoingClimbingMotion() {
+        return rightGripDown || leftGripDown;
     }
 
 
